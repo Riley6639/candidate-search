@@ -1,28 +1,46 @@
 import { useState, useEffect } from 'react';
 import { searchGithub, searchGithubUser } from '../api/API';
 import { Candidate } from '../interfaces/Candidate.interface';
+import { useCandidateContext } from '../context/CandidateContext';
 
-const CandidateSearch = () => {
+const CandidateSearch: React.FC = () => {
   //create state variables for the candidates, the selected canditate, and loading
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(null);
-  const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
+  const{ addCandidate } = useCandidateContext();
+  
 
-  //functions to fetch data from the API and set the candidates state variable
+  //function to fetch a single candidate from the candidate list
+  const fetchSingleCandidate = async (candidates: Candidate[]) => {
+    const randomIndex = Math.floor(Math.random() * candidates.length);
+    const candidate = candidates[randomIndex];
+    const user = await searchGithubUser(candidate.login);
+    return user as Candidate;
+  }
+
+  //functions to fetch a random set of candidates from the github API
   const fetchCandidates = async () => {
     setLoading(true);
-    const data = await searchGithub();
-    setCandidates(data);
+    const candidates = await searchGithub();
+    setCurrentCandidate(await fetchSingleCandidate(candidates));
+    console.log(currentCandidate);
     setLoading(false);
   }
 
-  //function to fetch a single candidate from the candidates array and set the currentCandidate state variable
-  const fetchCandidate = async (login: string) => {
-    const userName = candidates[0].login;
-    const data = await searchGithubUser(userName);
+  //function to handle adding a canidate to savedCandidates
+  const handleAddCandidate = () => {
+    if (currentCandidate) {
+      addCandidate(currentCandidate);
+      fetchCandidates();
+    }
   }
 
+  //function to handle declining the candidate
+  const handleDeclineCandidate = () => {
+    fetchCandidates();
+  }
+ 
   //useEffect to fetch data when the component mounts
   useEffect(() => {
     fetchCandidates();
@@ -32,11 +50,40 @@ const CandidateSearch = () => {
   return (
     <div>
       <h1>CandidateSearch</h1>
-      <ul>
-
-      </ul>
+      {loading && <p>Loading...</p>}
+  
+      {!loading && currentCandidate && (
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <img 
+                  src={currentCandidate.avatar_url} 
+                  alt={`${currentCandidate.login}'s avatar`} 
+                />
+              </td>
+              <td>
+                <h2>{currentCandidate.login}</h2>
+                <p>Location: {currentCandidate.location || 'Not specified'}</p>
+                <p>Company: {currentCandidate.company || 'Not specified'}</p>
+                <p>Email: {currentCandidate.email || 'Not specified'}</p>
+                <a href={currentCandidate.html_url} target="_blank" rel="noopener noreferrer">
+                  Github Profile
+                </a>
+                <div>
+                  <button onClick={handleAddCandidate}>+</button>
+                  <button onClick={handleDeclineCandidate}>-</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+  
+      <div></div>
     </div>
   );
+  
 };
 
 export default CandidateSearch;
