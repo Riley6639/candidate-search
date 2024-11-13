@@ -1,33 +1,20 @@
-# React + TypeScript + Vite
+# Candidate Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## table of contents
+[description](#description)
+[usage](#usage)
+[development](#development)
+[contributions](#contributions)
 
-Currently, two official plugins are available:
+## description
+This app is a candidate search website that uses an API to display different gitHub users. The user has the option to save the candidate or move on to a new one. On another page the user can see a list of the saved candidates.
 
-* [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md), which uses [Babel](https://babeljs.io/) for Fast Refresh
-* [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc), which uses [SWC](https://swc.rs/) for Fast Refresh
+## usage
+To use this app go to the deployed website.
+Here is the link to the deployed application: 
 
-## Expanding the ESLint configuration
+## development
+This was my first expierience using typescript and react. To develop this project I had to first create an interface type for the candidate data, and then create the react components to handle and display that data. I also had to use the useContext hook to share the data between components. By using this hook I was able to get the data from the saved candidates to the other component so they could render that list. 
 
-If you're developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-* Configure the top-level `parserOptions` property as follows:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-* Replace `plugin:@typescript-eslint/recommended` with `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`.
-* Optionally, add `plugin:@typescript-eslint/stylistic-type-checked`.
-* Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` and `plugin:react/jsx-runtime` to the `extends` list.
-
----
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+## contributions 
+You can contribute on GitHub! 
