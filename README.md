@@ -12,6 +12,7 @@ This app is a candidate search website that uses an API to display different git
 ## usage
 To use this app go to the deployed website.
 Here is the link to the deployed application: 
+https://candidate-search-1-y7lt.onrender.com/ 
 
 ## development
 This was my first expierience using typescript and react. To develop this project I had to first create an interface type for the candidate data, and then create the react components to handle and display that data. I also had to use the useContext hook to share the data between components. By using this hook I was able to get the data from the saved candidates to the other component so they could render that list. 
